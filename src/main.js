@@ -391,17 +391,7 @@ my = {};
             }
         }
     };
-    setInterval(t.search, 100);
-    /****/
-    /* 路由 */
-    if (location.pathname == "/about") { my.about() };
-    if (location.pathname == "/search") {
-        my.all();
-        if (qs("q")) {
-            $("#searchbar").val(decodeURI(qs("q")));
-            $("#searchbar").focus();
-        }
-    };
+    var search = setInterval(t.search, 100);
     /****/
     /* 邮箱 */
     if (qs("mail")) {
@@ -423,5 +413,23 @@ my = {};
     });
     /****/
     lazyload();
-    t.show();
+    /* 路由 */
+    if (location.pathname == "/about" || location.pathname == "/search") {
+        if (location.pathname == "/about") {
+            my.about()
+        };
+        if (location.pathname == "/search") {
+            my.all();
+            if (qs("q")) {
+                $("#searchbar").val(decodeURI(qs("q")));
+                $("#searchbar").focus();
+            }
+        };
+    } else if (location.pathname == "/") {
+        t.show();
+    } else {
+        clearInterval(search);
+        $(".app").load("./src/_404.html");
+    };
+    /****/
 })(my)
