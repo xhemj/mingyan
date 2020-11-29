@@ -38,6 +38,16 @@ my = {};
         db('Page load time is ' + loadTime + "ms");
     };
     var ua = new Browser();
+    /* 路由 */
+    if (location.pathname == "/about") { my.about() };
+    if (location.pathname == "/search") {
+        my.all();
+        if (qs("q")) {
+            $("#searchbar").val(decodeURI(qs("q")));
+            $("#searchbar").focus();
+        }
+    };
+    /****/
     /* 页面基础功能 */
     var footer = $("footer").html().replace("999+", mingyan.length);
     $("#md").hide();
@@ -358,7 +368,7 @@ my = {};
     /****/
     /* 搜索功能 */
     t.search = function () {
-        if ($("#searchbar").is(":focus")) {
+        if ($("#searchbar").is(":focus") || qs("q") != "") {
             if ($("input#searchbar").val()) {
                 var now1 = $("input#searchbar").val();
                 var now2 = $("input#searchbar").val();
